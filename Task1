@@ -1,0 +1,54 @@
+CREATE TABLE books (
+  book_id INT PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  author VARCHAR(100) NOT NULL,
+  publisher VARCHAR(100),
+  publication_date DATE,
+  isbn VARCHAR(20) UNIQUE,
+  status VARCHAR(10) DEFAULT 'Available');
+
+CREATE TABLE members (
+  member_id INT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(100) UNIQUE,
+  phone VARCHAR(20),
+  membership_date DATE,
+  expiration_date DATE);
+
+CREATE TABLE transactions (
+  transaction_id INT PRIMARY KEY,
+  book_id INT,
+  member_id INT,
+  transaction_date DATE,
+  transaction_type VARCHAR(10),
+  FOREIGN KEY (book_id) REFERENCES books(book_id),
+  FOREIGN KEY (member_id) REFERENCES members(member_id));
+
+INSERT INTO books (book_id, title, author, publisher, publication_date, isbn)
+VALUES
+  (1, 'To Kill a Mockingbird', 'Harper Lee', 'J.B. Lippincott & Co.', '1960-07-11', '978-0446310789'),(2, 'The Great Gatsby', 'F. Scott Fitzgerald', 'Charles Scribner''s Sons', '1925-04-10', '978-0743273565');
+
+INSERT INTO members (member_id, name, email, phone, membership_date, expiration_date)
+VALUES
+  (1, 'John Doe', 'john.doe@example.com', '123-456-7890', '2022-01-01', '2024-12-31'),(2, 'Jane Smith', 'jane.smith@example.com', '987-654-3210', '2023-06-01', '2025-05-31');
+
+INSERT INTO transactions (transaction_id, book_id, member_id, transaction_date, transaction_type)
+VALUES
+  (1, 1, 1, '2022-01-15', 'Borrow'),(2, 2, 2, '2023-07-10', 'Borrow');
+
+UPDATE books SET status = 'Borrowed' WHERE book_id = 1;
+
+UPDATE members SET email = 'john.doe2@example.com' WHERE member_id = 1;
+
+DELETE FROM transactions WHERE transaction_id = 1;
+
+SELECT * FROM books;
+SELECT * FROM members;
+SELECT * FROM transactions;
+
+SELECT * FROM books WHERE status = 'Borrowed';
+
+SELECT b.title, t.transaction_date 
+FROM books b 
+JOIN transactions t ON b.book_id = t.book_id 
+WHERE t.member_id = 1;
