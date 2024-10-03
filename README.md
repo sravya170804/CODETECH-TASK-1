@@ -5,7 +5,7 @@ Company: CODETECH IT SOLUTIONS
 
 Domain: SQL
 
-Duration: Setember to October 2024
+Duration: September to October 2024
 
 Mentor: Neela Santhu Kumar
 
